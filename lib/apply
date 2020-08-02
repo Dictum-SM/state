@@ -1,0 +1,29 @@
+#!/bin/bash
+
+APPLY_INDEX[kustom]=apply-kustom
+apply-kustom(){
+
+  kubectl apply -k $1
+
+}
+
+APPLY_INDEX[file]=apply-file
+apply-file(){
+
+  kubectl apply -f $1
+
+}
+
+APPLY_INDEX[kbuild]=apply-kustomize
+apply-kbuild(){
+
+  kustomize build $1 | kubectl apply -f -
+
+}
+
+APPLY_INDEX[bash]=execute-bash
+execute-bash(){
+
+  bash $1
+
+}

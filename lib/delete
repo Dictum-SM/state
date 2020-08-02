@@ -1,0 +1,23 @@
+#!/bin/bash
+ 
+
+DELETE_INDEX[kubectlk]=delete-kubectlk
+delete-kubectlk(){
+
+  kubectl delete -k $1
+
+}
+
+DELETE_INDEX[kubectlf]=delete-kubectlf
+delete-kubectlf(){
+
+  kubectl delete -f $1
+
+}
+
+DELETE_INDEX[kbuild]=delete-kbuild
+delete-kbuild(){
+
+  kustomize build $1 | kubectl delete -f -
+
+}

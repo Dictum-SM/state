@@ -1,0 +1,5 @@
+helm
+kubectl
+kustomize
+terraform
+yq

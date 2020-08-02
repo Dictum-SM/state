@@ -1,0 +1,56 @@
+#!/bin/bash
+
+get-deletions(){
+  EXISTING=$1
+  INCOMING=$2
+while IFS='' read -r LINE || [ -n "${LINE}" ]
+  do
+    KEY=$(grep -o "^.*\:" <<< "${LINE}")
+    if ! grep -q "${KEY}" ${INCOMING}
+    then 
+        echo ${LINE}
+    fi
+  done < ${EXISTING}
+}
+
+get-value(){
+
+ echo $(grep -o "\s.*" <<< $1)
+
+}
+
+
+get-key(){
+
+  echo $(grep -o "^.*\:") <<< $1
+
+}
+
+get-pairs-stdin(){
+
+  yq r - data | sed 's/"//g'
+
+
+}
+
+get-pairs-arg(){
+
+  yq r $1 data | sed 's/"//g'
+
+}
+
+get-configmap(){
+    
+  kubectl get configmap -n state-machine state -o yaml
+
+}
+
+get-workdir(){
+
+  until grep "^\.state$" <<< $(ls)
+  do
+    cd ..
+  done
+  echo $(pwd)
+
+}
