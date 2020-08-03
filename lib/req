@@ -47,7 +47,7 @@ get-configmap(){
 
 get-workdir(){
 
-  until grep "^\.state$" <<< $(ls)
+  until grep -q "^\.state$" <<< $(ls -a)
   do
     cd ..
   done

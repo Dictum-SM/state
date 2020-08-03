@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xv
 
 # Initialize indicies must be first
 declare -A DELETE_INDEX
@@ -42,7 +42,7 @@ then
       name=$(get-key "${LINE}")
       filepath=$(get-value "${LINE}")
       resource="${WORKDIR}/${filepath}"
-      res_type=$(grep "\-.*\:" <<< $name)
+      res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< $name | sed s/\://g)
       action=$(echo ${DELETE_INDEX[$res_type]})
       
       $action $resource
@@ -57,7 +57,7 @@ fi
       name=$(get-key "${LINE}")
       filepath=$(get-value "${LINE}")
       resource="${WORKDIR}/${filepath}"
-      res_type=$(grep "\-.*\:" <<< $name)
+      res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< $name | sed s/\://g)
       action=$(echo ${APPLY_INDEX[$res_type]})
       
       $action $resource
