@@ -22,7 +22,7 @@ get-value(){
 
 get-key(){
 
-  echo $(grep -o "^.*\:") <<< $1
+  echo $(grep -o "^.*\:" <<< $1)
 
 }
 
