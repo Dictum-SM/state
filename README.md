@@ -35,12 +35,12 @@ metadata:
   name: state
   namespace: state-machine
 data:
-  hello-deployment-kubectlf: "resources/demo-hello.yaml"
+  hello-deployment-kubectlf: "state/resources/demo-hello.yaml"
   state-ns-kubectlf: "state/resources/state-ns.yaml"
   state-kubectlf: ".state"
 
 ```
-4. Start the state machine with  `bash < project dir >/state/state.sh`
+4. Start the state machine with  `./state.sh`
 5. Check for deployment in default NS  
 Notice that aside from the Hello World deployment, the state machine has stored its state in the cluster under the state-machine NS.
 6. Edit the `.state` file again, and delete the entire hello-deployment key/value pair line.
