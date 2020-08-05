@@ -26,7 +26,7 @@ Prereq2: Read requirements.txt for a list of application dependencies.
 Prereq3: Have an available kubernetes cluster in your default kubectl context.
 
 1. At the root of the git repo, create a file called `.state`.
-2. Add the State Machine repo as a git submodule within your current repo. Make sure to use a tagged release: `git submodule add -b alpha1 https://github.com/Dictum-SM/state.git state`  
+2. Add the State Machine repo as a git submodule within your current repo: `git submodule add https://github.com/Dictum-SM/state.git state`  
 3. Copy and paste the following ConfigMap into `.state`:
 ```
 apiVersion: v1
@@ -36,7 +36,7 @@ metadata:
   namespace: state-machine
 data:
   hello-deployment-kubectlf: "resources/demo-hello.yaml"
-  state-ns-kubectlf: "state/resources/state-ns.yaml
+  state-ns-kubectlf: "state/resources/state-ns.yaml"
   state-kubectlf: ".state"
 
 ```
