@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: state
+  namespace: state-machine
+data:
+  hello-deployment-kubectlf: "demo/hello-application.yaml"
+  state-ns-kubectlf: "state/resources/state-ns.yaml
+  state-kubectlf: ".state"
