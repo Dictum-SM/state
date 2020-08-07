@@ -8,13 +8,17 @@ DSM reads a Kubernetes ConfigMap and conditionally performs apply or delete oper
 
 Though preferred, Kubernetes is not required for the DSM to run. The DSM can be run remotely from an admin computer or from within a Kubernetes cluster as an Operator.
 
+Every component of an environment, underlay and overlay, is intended to be managed by the DSM. This requires the DSM to be deterministic, so regardless of the starting state of the environment, the ending state should always be the same. Whether the DSM is run against a completely undefined environment or it is run against a fully built out environment, the result should always be the same.
+
 ## Components
 ### - Environment Definition:  
-An initialized workspace organized with adherence to modular design and code reuse principals. Uses git submodules to import common or generalized components that are applied by theDSM.
+An initialized workspace organized with adherence to modular design and code reuse principals. Uses git submodules to import common or generalized components that are applied by the DSM.
 ### - State Machine:  
 A program that reads an Environment Definition and applies the defined configuration. The DSM combines the sequential application of declarative configuration patterns with imperative task execution for things like health checking and secrets management.
 ### - Resources: 
-Any files that are referenced by the DSM while applying the defined state of the environment. Resources must adhere to certain design patterns when being called in the execution ofDSM tasks.
+Any files that are referenced by the DSM while applying the defined state of the environment. Resources must adhere to certain design patterns when being called in the execution of DSM tasks.
+### - Executors:
+Invoked by the state machine to apply or delete resources listed in the .state file. A resources' executor is identified to the state machine by a suffixed name encoded in the key of the  resources' key/value pair.
 
 ## Process
 When the DSM is run, it first locates the `.state` file in the workspace root and attempts to retrieve an existing state ConfigMap with the current kubectl context. If an existing State is found, the existing state is compared to the incoming state. Resources present in the existing state that are missing from the incoming state are deleted from the environment. If no existing state is found, the incoming state is then applied to the environment. Resources in the incoming state are applied sequentially (from top to bottom). Resources are listed in `.state` as key/value pairs with the following syntax: `name-descriptor-res_type: file/path/to/resource`
@@ -73,7 +77,7 @@ Scripts can be called, such as in bash, to provide imperative operations that he
 1. Check for liveness/health/resource availability before applying a declarative configuration.  
 2. Unlock credentials used to manage declarative resources such as access tokens stored in ansible-vault.  
 
-Do not use scripts to deploy configurations or manage any aspect of an environment because they can not be undone by invoking binary operations used by the DSM.
+Do not use scripts to deploy configurations or manage any aspect of an environment because they can not be undone by invoking binary operations used by the DSM. If a scripted process is needed to deploy a configuration, using ansible would be preferable, because the delete play in the playbook can be used to undefine the configuration of the apply play.
 
 ## Misc
 For Ansible each resource must be written in a playbook with two plays that can be called by a common delete and apply variable. Therefore, every playbook should be written to execute one of two plays with a common agreed upon variable where one play performs an apply operation and the second play performs the inverse operation that will completely revert the changes of the apply play.
