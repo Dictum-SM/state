@@ -1,6 +1,6 @@
 # Dictum State Machine
 ## Introduction
-The Dictum State Machine (DSM) is a framework and extensible program for managing declarative configurations of a defined environment. 
+The Dictum State Machine (DSM) is a framework and extensible program for managing declarative configurations of a defined environment.
 
 The DSM is intended to apply any declarative configurations, such as kubernetes (kubectl/kustomize/helm), terraform, and ansible in a user defined sequence with health checking and resource checking between each applied template.
 
@@ -8,7 +8,7 @@ DSM reads a Kubernetes ConfigMap and conditionally performs apply or delete oper
 
 Though preferred, Kubernetes is not required for the DSM to run. The DSM can be run remotely from an admin computer or from within a Kubernetes cluster as an Operator.
 
-Every component of an environment, underlay and overlay, is intended to be managed by the DSM. This requires the DSM to be deterministic, so regardless of the starting state of the environment, the ending state should always be the same. Whether the DSM is run against a completely undefined environment or it is run against a fully built out environment, the result should always be the same.
+Every component of an environment, underlay and overlay, is intended to be managed by the DSM. This requires the DSM to be deterministic. Regardless of the starting state of the environment, the ending state should always be the same. Whether the DSM is run against a completely undefined environment or it is run against a fully built out environment, the result should always be the same.
 
 ## Components
 ### - Environment Definition:  
@@ -78,6 +78,11 @@ Scripts can be called, such as in bash, to provide imperative operations that he
 2. Unlock credentials used to manage declarative resources such as access tokens stored in ansible-vault.  
 
 Do not use scripts to deploy configurations or manage any aspect of an environment because they can not be undone by invoking binary operations used by the DSM. If a scripted process is needed to deploy a configuration, using ansible would be preferable, because the delete play in the playbook can be used to undefine the configuration of the apply play.
+
+## Integration with a GitOps CD
+
+GitOps CD providers such as Flux and Argo can also be integrated with the DSM by allowing their git write backs to modify the DSM environment repo which the DSM would then apply the changed configurations during subsequent DSM runs.
+
 
 ## Misc
 For Ansible each resource must be written in a playbook with two plays that can be called by a common delete and apply variable. Therefore, every playbook should be written to execute one of two plays with a common agreed upon variable where one play performs an apply operation and the second play performs the inverse operation that will completely revert the changes of the apply play.
