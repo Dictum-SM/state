@@ -27,7 +27,7 @@ When the DSM is run, it first locates the `.state` file in the workspace root an
 
 The res_type identifies the executor with which the resource will be managed.  For example, the DSM processing `nexus-deployment-kubectlk: nexus/nexus-deploy/` would result in either `kubectl apply -k /literal/path/nexus/nexus-deploy/` or `kubectl delete -k /literal/path/nexus/nexus-deploy/`
 
-Every environment must be managed by an order of operations. Resources will inevitably rely on dependencies. TheDSM addresses an Environment's order of operations by applying configurations sequentially, but this is not enough for complex environment provisioning, management, and updating. TheDSM also executes process helpers between resource application that allow administrators to dynamically configure things like health checking and resource availability checks. This enables theDSM to pause, wait, or fail between configuration applications as needed.
+Every environment must be managed by an order of operations. Resources will inevitably rely on dependencies. The DSM addresses an Environment's order of operations by applying configurations sequentially, but this is not enough for complex environment provisioning, management, and updating. The DSM also executes process helpers between resource application that allow administrators to dynamically configure things like health checking and resource availability checks. This enables the DSM to pause, wait, or fail between configuration applications as needed.
 
 ## Getting Started
 
@@ -59,7 +59,7 @@ Notice that aside from the Hello World deployment, the DSM has stored its state 
 ## Extensibility
 The DSM can use any declarative resource if the resource can be invoked to perform binary operations. For example, a key/valude pair of `  hello-deployment-kubectlf: "resources/demo-hello.yaml"` would be either applied or deleted with `kubectl -f`. 
 
-The DSM is expected to handle additional resource types beyond the Alpha1 defaults. Additional resource types include, but are not limited to Terraform and Ansible. 
+The DSM is expected to handle additional resource types beyond the Alpha1 defaults. Suitable resource types are anything that can be managed with the binary operations of the DSM (apply/delete). 
 
 There are two criteria for extending the DSM resource types:  
 1. An apply and delete function must be written for each resource type and must be invoked by the same name.
@@ -71,8 +71,9 @@ Take a look at the lib/apply and lib/delete libraries to see how the functions a
 2. **kubectlk**: kubectl <apply/delete> -k   
 3. **kbuild**: kustomize build | kubectl <apply/delete> -f -  
 4. **terraform**: first performs `terraform init` on the resource and then `terraform apply/destroy -auto-approve`.  
- **Note** Do not store initialized terraform directories in git, the state machine will initialize the for you.  
-5. **bash**: Executes the referenced script verbatim.  
+ **Note** Do not store initialized terraform directories in git, the state machine will initialize the for you. 
+5. **playbook**: ansible-playbook --extra-vars "<operation=apply/delete>" 
+6. **bash**: Executes the referenced script verbatim.  
 **Note** This is a special resource type that does not have a corresponding delete, because a script cannot be considered reliably declarative and is difficult to call to perform an inverse operation from what it was set to do.
 
 ## How to use scripts between declarations
@@ -88,4 +89,4 @@ GitOps CD providers such as Flux and Argo can also be integrated with the DSM by
 
 
 ## Misc
-For Ansible each resource must be written in a playbook with two plays that can be called by a common delete and apply variable. Therefore, every playbook should be written to execute one of two plays with a common agreed upon variable where one play performs an apply operation and the second play performs the inverse operation that will completely revert the changes of the apply play.
+For Ansible each resource must be written in a playbook with two plays that can be called by a common delete and apply variable. Therefore, every playbook should be written to execute one of two plays with a common agreed upon variable (operation) where one play performs an apply operation (operation=apply) and the second play performs the inverse operation (operation=delete) that will completely revert the changes of the apply play.

@@ -29,3 +29,10 @@ delete-terraform(){
   terraform destroy -auto-approve $1
 
 }
+
+DELETE_INDEX[playbook]=delete-playbook
+delete-playbook(){
+
+  ansible-playbook $1 --extra-vars "operation=delete"
+
+}

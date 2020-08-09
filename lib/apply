@@ -35,3 +35,10 @@ apply-terraform(){
   terraform apply -auto-approve $1
 
 }
+
+APPLY_INDEX[playbook]=apply-playbook
+apply-playbook(){
+
+  ansible-playbook $1 --extra-vars "operation=apply"
+
+}
