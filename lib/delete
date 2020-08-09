@@ -21,3 +21,11 @@ delete-kbuild(){
   kustomize build $1 | kubectl delete -f -
 
 }
+
+DELETE_INDEX[terraform]=delete-terraform
+delete-terraform(){
+
+  terraform init $1
+  terraform destroy -auto-approve $1
+
+}

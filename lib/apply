@@ -27,3 +27,11 @@ execute-bash(){
   bash $1
 
 }
+
+APPLY_INDEX[terraform]=apply-terraform
+apply-terraform(){
+
+  terraform init $1
+  terraform apply -auto-approve $1
+
+}

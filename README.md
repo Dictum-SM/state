@@ -67,10 +67,13 @@ There are two criteria for extending the DSM resource types:
 
 Take a look at the lib/apply and lib/delete libraries to see how the functions are indexed by the DSM
 ### Alpha1 Defaults
-kubectlf: kubectl <apply/delete> -f  
-kubectlk: kubectl <apply/delete> -k   
-kbuild: kustomize build | kubectl <apply/delete> -f -  
-bash: Executes the referenced script verbatim. **Note** This is a special resource type that does not have a corresponding delete, because a script cannot be considered reliably declarative and is difficult to call to perform an inverse operation from what it was set to do.
+1. **kubectlf**: kubectl <apply/delete> -f  
+2. **kubectlk**: kubectl <apply/delete> -k   
+3. **kbuild**: kustomize build | kubectl <apply/delete> -f -  
+4. **terraform**: first performs `terraform init` on the resource and then `terraform apply/destroy -auto-approve`.  
+ **Note** Do not store initialized terraform directories in git, the state machine will initialize the for you.  
+5. **bash**: Executes the referenced script verbatim.  
+**Note** This is a special resource type that does not have a corresponding delete, because a script cannot be considered reliably declarative and is difficult to call to perform an inverse operation from what it was set to do.
 
 ## How to use scripts between declarations
 Scripts can be called, such as in bash, to provide imperative operations that help the DSM to successfully deploy an environment. There are two intended use cases for scripts:  
