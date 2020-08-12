@@ -36,3 +36,10 @@ delete-playbook(){
   ansible-playbook $1 --extra-vars "operation=delete"
 
 }
+
+DELETE_INDEX[chart]=delete-chart
+delete-chart(){
+
+  helm uninstall $1
+
+}

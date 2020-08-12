@@ -42,3 +42,10 @@ apply-playbook(){
   ansible-playbook $1 --extra-vars "operation=apply"
 
 }
+
+APPLY_INDEX[chart]=apply-chart
+apply-chart(){
+
+  helm install $1
+
+}
