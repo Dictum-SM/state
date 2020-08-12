@@ -3,3 +3,5 @@ kubectl
 kustomize
 terraform
 yq
+ansible
+bash
