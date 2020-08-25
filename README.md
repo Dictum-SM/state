@@ -2,13 +2,9 @@
 ## Introduction
 The Dictum State Machine (DSM) is a framework and extensible program for managing declarative configurations of a defined environment.
 
-The DSM is intended to apply any declarative configurations, such as kubernetes (kubectl/kustomize/helm), terraform, and ansible in a user defined sequence with health checking and resource checking between each applied template.
+The DSM treats ANY declarative Infrastructure as Code configurations/manifests as functions in a larger software defined system. The Dictum-SM is the   "main" program calling declarative manifests as "functions" to achieve the desired   state defined. The outcome of the Dictum-SM is deterministic and should  result in the same outcome when executed from within a Kubernetes cluster or  outside.
 
-DSM reads a Kubernetes ConfigMap and conditionally performs apply or delete operations with declarative configurations. Between apply operations, the DSM can execute scripts to perform health checking and resource availability.
-
-Though preferred, Kubernetes is not required for the DSM to run. The DSM can be run remotely from an admin computer or from within a Kubernetes cluster as an Operator.
-
-Every component of an environment, underlay and overlay, is intended to be managed by the DSM. This requires the DSM to be deterministic. Regardless of the starting state of the environment, the ending state should always be the same. Whether the DSM is run against a completely undefined environment or it is run against a fully built out environment, the result should always be the same.
+The Dictum-SM should contain the end to end declared configuration of an environment. This would include underlay (provider) configs; all the way up to the hosted applications (or serverless) and ancillary configs (such as git RBAC settings).
 
 ## Components
 ### - Environment Definition:  
