@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# List the resource deletions from the existing state to the incoming state
 get-deletions(){
   EXISTING=$1
   INCOMING=$2
@@ -13,19 +14,21 @@ while IFS='' read -r LINE || [ -n "${LINE}" ]
   done < ${EXISTING}
 }
 
+# Returns the value of the current resource KV pair
 get-value(){
 
  echo $(grep -o "\s.*" <<< $1)
 
 }
 
-
+# Returns the key of the current resource KV pair
 get-key(){
 
   echo $(grep -o "^.*\:" <<< $1)
 
 }
 
+# Strips down 
 get-pairs-stdin(){
 
   yq r - data | sed 's/"//g'
@@ -39,13 +42,15 @@ get-pairs-arg(){
 
 }
 
+# Retrieve the env state
 get-configmap(){
     
   kubectl get configmap -n state-machine state -o yaml
 
 }
 
-get-workdir(){
+# get-workspace retrieves the initialized workspace literal path
+get-workspace(){
 
   until grep -q "^\.state$" <<< $(ls -a)
   do

@@ -4,17 +4,26 @@
 declare -A DELETE_INDEX
 declare -A APPLY_INDEX
 
+# Get literal dir path of the state script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
 # Functions in lib/apply and lib/delete are added to idicies
-source lib/apply
-source lib/delete
-source lib/req
+source ${DIR}/lib/apply
+source ${DIR}/lib/delete
+source ${DIR}/lib/req
 
 # Set workspace
 TEMPDIR=$(mktemp -d -t sm-XXXXXXXXXX)
 
 # Find Environment Definition
 
-WORKDIR=$(get-workdir)
+WORKDIR=$(get-workspace)
 
 # Try to get cluster state
 if get-configmap > /dev/null 2>&1
