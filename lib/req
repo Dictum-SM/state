@@ -52,7 +52,7 @@ get-configmap(){
 # get-workspace retrieves the initialized workspace literal path
 get-workspace(){
 
-  until grep -q "^\.state$" <<< $(ls -a)
+  until grep -Eq "(^| )\.state( |$)" <<< $(ls -a)
   do
     cd ..
   done
