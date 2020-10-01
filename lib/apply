@@ -46,6 +46,6 @@ apply-playbook(){
 APPLY_INDEX[chart]=apply-chart
 apply-chart(){
 
-  helm install $1
+  helm install $(sed s/\://g <<< $name) $1
 
 }

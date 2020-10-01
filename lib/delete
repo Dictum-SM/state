@@ -40,6 +40,6 @@ delete-playbook(){
 DELETE_INDEX[chart]=delete-chart
 delete-chart(){
 
-  helm uninstall $1
+  helm uninstall $(sed s/\://g <<< $name)
 
 }
