@@ -51,7 +51,8 @@ then
       name=$(get-key "${LINE}")
       filepath=$(get-value "${LINE}")
       resource="${WORKDIR}/${filepath}"
-      res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< $name | sed s/\://g)
+      resource="$(envsubst <<< ${resource})"
+      res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< ${name} | sed s/\://g)
       action=$(echo ${DELETE_INDEX[$res_type]})
       
       $action $resource
@@ -66,6 +67,7 @@ fi
       name=$(get-key "${LINE}")
       filepath=$(get-value "${LINE}")
       resource="${WORKDIR}/${filepath}"
+      resource="$(envsubst <<< ${resource})"
       res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< $name | sed s/\://g)
       action=$(echo ${APPLY_INDEX[$res_type]})
       

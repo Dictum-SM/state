@@ -46,6 +46,12 @@ apply-playbook(){
 APPLY_INDEX[chart]=apply-chart
 apply-chart(){
 
-  helm install $(sed s/\://g <<< $name) $1
+  INSTALL_NAME=$(sed s/\://g <<< $name)
+  if helm list -q | grep ${INSTALL_NAME}
+  then
+    helm upgrade ${INSTALL_NAME} $1
+  else
+    helm install ${INSTALL_NAME} $1
+  fi
 
 }
