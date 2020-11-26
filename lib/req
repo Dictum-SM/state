@@ -52,10 +52,24 @@ get-configmap(){
 # get-workspace retrieves the initialized workspace literal path
 get-workspace(){
 
-  until grep -Eq "(^| )\.state( |$)" <<< $(ls -a)
+  until [[ $PWD = '/' || grep -Eq "(^| )\.state( |$)" <<< $(ls -a) ]]
   do
     cd ..
   done
+
+  if [ $PWD = '/' ] 
+  then
+    echo "No Dictum initialized workspace found"
+    exit 1 
+  fi
+
   echo $(pwd)
+
+}
+
+store-state(){
+
+  kubectl apply -f ./state/state-ns.yaml
+  kubectl apply -f .state/state.yaml
 
 }

@@ -13,6 +13,16 @@ while [ -h "$SOURCE" ]; do
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+# Find Environment Definition
+
+WORKDIR=$(get-workspace)
+
+if [ -z "${WORKDIR}" ] 
+then
+  echo "No Dictum initialized workspace found"
+  exit 1 
+fi
+
 # Functions in lib/apply and lib/delete are added to idicies
 source ${DIR}/lib/apply
 source ${DIR}/lib/delete
@@ -20,10 +30,6 @@ source ${DIR}/lib/req
 
 # Set workspace
 TEMPDIR=$(mktemp -d -t sm-XXXXXXXXXX)
-
-# Find Environment Definition
-
-WORKDIR=$(get-workspace)
 
 # Try to get cluster state
 if get-configmap > /dev/null 2>&1
@@ -42,6 +48,7 @@ INCOMING_STATE="${TEMPDIR}/incoming.kv"
 if [ -s ${EXISTING_STATE} ]
 then
   get-deletions ${EXISTING_STATE} ${INCOMING_STATE} > ${TEMPDIR}/diff.kv
+  sed -i '1!G;h;$!d' ${TEMPDIR}/diff.kv
   DIFF=${TEMPDIR}/diff.kv
 
   # Delete Resources
@@ -74,4 +81,5 @@ fi
       $action $resource
 
     done < $INCOMING_STATE
+store-state
 

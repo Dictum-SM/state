@@ -5,5 +5,3 @@ metadata:
   namespace: state-machine
 data:
   hello-deployment-kubectlf: "state/resources/demo-hello.yaml"
-  state-ns-kubectlf: "state/resources/state-ns.yaml"
-  state-kubectlf: ".state"

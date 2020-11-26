@@ -25,7 +25,7 @@ delete-kbuild(){
 DELETE_INDEX[terraform]=delete-terraform
 delete-terraform(){
 
-  terraform init $1
+  terraform init -input=false $1
   terraform destroy -auto-approve $1
 
 }
