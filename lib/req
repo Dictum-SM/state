@@ -69,7 +69,7 @@ get-workspace(){
 
 store-state(){
 
-  kubectl apply -f ./state/state-ns.yaml
-  kubectl apply -f .state/state.yaml
+  kubectl apply -f ${WORKDIR}/.state-ns
+  kubectl apply -f ${WORKDIR}/.state
 
 }

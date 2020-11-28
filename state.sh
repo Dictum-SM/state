@@ -15,7 +15,7 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 # Find Environment Definition
 
-WORKDIR=$(get-workspace)
+export WORKDIR=$(get-workspace)
 
 if [ -z "${WORKDIR}" ] 
 then
