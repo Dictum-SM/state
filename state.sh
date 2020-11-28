@@ -13,6 +13,11 @@ while [ -h "$SOURCE" ]; do
 done
 DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
+# Functions in lib/apply and lib/delete are added to idicies
+source ${DIR}/lib/apply
+source ${DIR}/lib/delete
+source ${DIR}/lib/req
+
 # Find Environment Definition
 
 export WORKDIR=$(get-workspace)
@@ -23,12 +28,7 @@ then
   exit 1 
 fi
 
-# Functions in lib/apply and lib/delete are added to idicies
-source ${DIR}/lib/apply
-source ${DIR}/lib/delete
-source ${DIR}/lib/req
-
-# Set workspace
+# Set temp workspace
 TEMPDIR=$(mktemp -d -t sm-XXXXXXXXXX)
 
 # Try to get cluster state
