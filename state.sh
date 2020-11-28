@@ -1,22 +1,24 @@
 #!/bin/bash -xv
-
-# Initialize indicies must be first
-declare -A DELETE_INDEX
-declare -A APPLY_INDEX
-
-# Get literal dir path of the state script
-SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do
-  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
-done
-DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
-
-# Functions in lib/apply and lib/delete are added to idicies
-source ${DIR}/lib/apply
-source ${DIR}/lib/delete
-source ${DIR}/lib/req
+####################################################################
+# Be very careful when modifying anything in this box              # 
+# Initialize indicies must be first                                #
+declare -A DELETE_INDEX                                            #
+declare -A APPLY_INDEX                                             #
+                                                                   #
+# Get literal dir path of the state script                         #
+SOURCE="${BASH_SOURCE[0]}"                                         #
+while [ -h "$SOURCE" ]; do                                         #
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )" #
+  SOURCE="$(readlink "$SOURCE")"                                   #
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"                     #
+done                                                               #
+DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"   #
+                                                                   #
+# Functions in lib/apply and lib/delete are added to idicies       #
+source ${DIR}/lib/apply                                            #
+source ${DIR}/lib/delete                                           #
+source ${DIR}/lib/req                                              #
+####################################################################
 
 # Find Environment Definition
 
