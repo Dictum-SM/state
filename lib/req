@@ -62,7 +62,7 @@ get-workspace(){
     echo "No Dictum initialized workspace found"
     exit 1 
   fi
-  cd ..
+  
   echo ${PWD}
 
 }

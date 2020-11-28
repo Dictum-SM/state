@@ -40,7 +40,7 @@ then
 fi
 
 # Get Incoming
-get-pairs-arg ${WORKDIR}/.state > ${TEMPDIR}/incoming.kv
+get-pairs-arg ${WORKDIR}/.state/.state > ${TEMPDIR}/incoming.kv
 
 # Temp KV locations
 EXISTING_STATE="${TEMPDIR}/existing.kv"
