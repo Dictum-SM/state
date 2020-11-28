@@ -52,34 +52,37 @@ then
   DIFF=${TEMPDIR}/diff.kv
 
   # Delete Resources
-    while IFS='' read -r LINE || [ -n "${LINE}" ]
-    do
+  while IFS='' read -r LINE || [ -n "${LINE}" ]
+  do
 
-      name=$(get-key "${LINE}")
-      filepath=$(get-value "${LINE}")
-      resource="${WORKDIR}/${filepath}"
-      resource="$(envsubst <<< ${resource})"
-      res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< ${name} | sed s/\://g)
-      action=$(echo ${DELETE_INDEX[$res_type]})
+    name=$(get-key "${LINE}")
+    filepath=$(get-value "${LINE}")
+    resource="${WORKDIR}/${filepath}"
+    resource="$(envsubst <<< ${resource})"
+    res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< ${name} | sed s/\://g)
+    action=$(echo ${DELETE_INDEX[$res_type]})
       
-      $action $resource
+    $action $resource
 
-    done < ${DIFF}
+  done < ${DIFF}
 fi
 
+if [[ ! -f ${WORKDIR}/.state/.state.del ]]
+then
   # Apply the new state
-    while IFS='' read -r LINE || [ -n "${LINE}" ]
-    do
+  while IFS='' read -r LINE || [ -n "${LINE}" ]
+  do
 
-      name=$(get-key "${LINE}")
-      filepath=$(get-value "${LINE}")
-      resource="${WORKDIR}/${filepath}"
-      resource="$(envsubst <<< ${resource})"
-      res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< $name | sed s/\://g)
-      action=$(echo ${APPLY_INDEX[$res_type]})
+    name=$(get-key "${LINE}")
+    filepath=$(get-value "${LINE}")
+    resource="${WORKDIR}/${filepath}"
+    resource="$(envsubst <<< ${resource})"
+    res_type=$(grep -o "[a-zA-Z1-9]*[\:]" <<< $name | sed s/\://g)
+    action=$(echo ${APPLY_INDEX[$res_type]})
       
-      $action $resource
+    $action $resource
 
-    done < $INCOMING_STATE
-store-state
+  done < $INCOMING_STATE
+  store-state
+fi
 

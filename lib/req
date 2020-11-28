@@ -62,14 +62,14 @@ get-workspace(){
     echo "No Dictum initialized workspace found"
     exit 1 
   fi
-
+  cd ..
   echo $(pwd)
 
 }
 
 store-state(){
 
-  kubectl apply -f ${WORKDIR}/.state-ns
-  kubectl apply -f ${WORKDIR}/.state
+  kubectl apply -f ${WORKDIR}/.state/.state-ns
+  kubectl apply -f ${WORKDIR}/.state/.state
 
 }
