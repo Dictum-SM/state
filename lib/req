@@ -45,7 +45,7 @@ get-pairs-arg(){
 # Retrieve the env state
 get-configmap(){
     
-  kubectl get configmap -n state-machine state -o yaml
+  kubectl get configmap -n dictum-sm state -o yaml
 
 }
 
@@ -62,7 +62,7 @@ get-workspace(){
     echo "No Dictum initialized workspace found"
     exit 1 
   fi
-  
+
   echo ${PWD}
 
 }
